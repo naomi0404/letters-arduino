@@ -1,0 +1,83 @@
+#include <Servo.h>
+
+Servo servoRight;
+Servo servoLeft;
+boolean moveForward = true;
+
+void setup() {
+  // put your setup code here, to run once:
+  delay(1000);    
+  Serial.begin(9600);
+  servoLeft.attach(12);
+  servoRight.attach(13);
+  //servoLeft.writeMicroseconds(100);
+  //servoRight.writeMicroseconds(100);
+  moveForward = true;
+}
+
+void forward(int howLong)                       // Forward function
+{
+  if (moveForward){
+
+     Serial.println("Hello\n");
+     for (int i=0; i<howLong; i++)
+     {
+       servoLeft.writeMicroseconds(1700);         // Left wheel counterclockwise
+       servoRight.writeMicroseconds(1300); 
+       Serial.println("Inside Loop\n");// Right wheel clockwise
+     }
+     servoLeft.writeMicroseconds(1500); // stops the wheel
+     servoRight.writeMicroseconds(1500); // stops the wheel
+     moveForward = false;
+  }
+//  else
+//  {
+//    servoLeft.writeMicroseconds(1500);
+//    servoRight.writeMicroseconds(1500);
+//  }
+}
+
+void turnRight(int howMuch)
+{
+  if (moveForward)
+  {
+    Serial.println("Hello\n");
+    for (int i=0; i<howMuch; i++)
+     {
+       servoLeft.writeMicroseconds(1700);         // Left wheel counterclockwise
+       Serial.println("Inside Loop\n");// Right wheel clockwise
+     }
+     servoLeft.writeMicroseconds(1500); // stops the wheel
+     moveForward = false;
+  }
+}
+
+void turnLeft()
+{
+  if (moveForward)
+  {
+    Serial.println("Hello\n");
+    for (int i=0; i<80; i++)
+     {
+       servoRight.writeMicroseconds(1700);         // Left wheel counterclockwise
+       Serial.println("Inside Loop\n");// Right wheel clockwise
+     }
+     servoRight.writeMicroseconds(1500); // stops the wheel
+     moveForward = false;
+  }
+}
+
+void drawA()
+{
+  forward(50);
+  moveForward = true;
+  turnRight(30);
+  moveForward = true;
+  forward(50);
+  moveForward = true;
+}
+void loop()
+{        //fancy stop main loop function
+  drawA();
+  for(;;){} 
+}
